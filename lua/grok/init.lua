@@ -50,20 +50,18 @@ function M.query(input_prompt)
 	)
 
 	local api_result = vim.fn.system(curl_cmd)
-	-- vim.notify(api_result, vim.log.levels.DEBUG)
-	if api_result or api_result == "" then
-		return vim.notify("Grok.nvim: Error calling xAI API", vim.log.levels.ERROR)
+
+	if vim.fn.empty(api_result) == 1 then -- Better: check if empty
+		return vim.notify("Grok.nvim: Error calling xAI API (empty response)", vim.log.levels.ERROR)
 	end
 
 	local ok, parsed = pcall(vim.json.decode, api_result)
-	if not ok then
-		return vim.notify("Grok.nvim: Invalid JSON from API", vim.log.levels.ERROR)
+	if not ok or parsed.error then
+		local err_msg = parsed and parsed.error and parsed.error.message or "Invalid JSON or unknown error"
+		return vim.notify("Grok API Error: " .. err_msg, vim.log.levels.ERROR)
 	end
 
-	if parsed.error then
-		return vim.notify("Grok API Error: " .. (parsed.error.message or "Unknown error"), vim.log.levels.ERROR)
-	end
-
+	-- Rest as before
 	local grok_response = parsed.choices[1].message.content
 
 	-- Display in floating window
