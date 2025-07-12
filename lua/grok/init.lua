@@ -2,7 +2,7 @@ local M = {}
 
 local config = {
 	api_key = nil,
-	model = "grok-4", -- Grok 4 model; alternatives like "grok-4-0709" if needed
+	model = "grok-3-latest", -- Grok 4 model; alternatives like "grok-4-0709" if needed
 }
 
 function M.setup(opts)
