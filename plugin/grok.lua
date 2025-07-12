@@ -4,6 +4,6 @@ end
 vim.g.loaded_grok = 1
 
 -- Create user command
-vim.api.nvim_create_user("Grok", function(opts)
+vim.api.nvim_create_user_command("Grok", function(opts)
 	require("grok").query(table.concat(opts.fargs, " "))
 end, { nargs = "*", desc = "Query Grok 4" })
