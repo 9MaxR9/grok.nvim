@@ -2,7 +2,7 @@ local M = {}
 
 local config = {
 	api_key = nil,
-	model = "grok-4", -- Grok 4 model; alternatives like "grok-4-0709" if needed
+	model = "grok-4-0709", -- Grok 4 model; alternatives like "grok-4-0709" if needed
 }
 
 function M.setup(opts)
@@ -50,7 +50,7 @@ function M.query(input_prompt)
 	)
 
 	local api_result = vim.fn.system(curl_cmd)
-	vim.notify(api_result, vim.log.levels.DEBUG)
+	-- vim.notify(api_result, vim.log.levels.DEBUG)
 	if api_result or api_result == "" then
 		return vim.notify("Grok.nvim: Error calling xAI API", vim.log.levels.ERROR)
 	end
